@@ -374,9 +374,37 @@ async function acceptAward(){
 }
 
 async function exportBackup(){
- const data={app:"love-award",version:APP_VERSION,exportedAt:new Date().toISOString(),sent:await DB.getAll("sent"),received:await DB.getAll("received")};
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download="嘉獎小卡_存檔_"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(url);toast("📤 存檔已匯出");
+ try{
+  const data={
+   app:"love-award",
+   version:APP_VERSION,
+   exportedAt:new Date().toISOString(),
+   sent:await DB.getAll("sent"),
+   received:await DB.getAll("received")
+  };
+
+  const json=JSON.stringify(data,null,2);
+  const blob=new Blob([json],{type:"application/json;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  const filename="嘉獎小卡_存檔_"+new Date().toISOString().slice(0,10)+".json";
+
+  a.href=url;
+  a.download=filename;
+  a.style.display="none";
+  document.body.appendChild(a);
+  a.click();
+
+  setTimeout(()=>{
+   a.remove();
+   URL.revokeObjectURL(url);
+  },1500);
+
+  toast("📤 存檔已匯出");
+ }catch(e){
+  console.error("存檔匯出失敗：",e);
+  toast("📤 存檔匯出失敗，請稍後再試");
+ }
 }
 async function importBackup(e){
  const file=e.target.files?.[0];e.target.value="";if(!file)return;
