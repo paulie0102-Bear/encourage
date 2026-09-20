@@ -114,9 +114,10 @@ textarea{min-height:125px;resize:vertical;line-height:1.65}
     <div class="panel">
       <span class="label">選擇系列</span>
       <div class="series-tabs">
-        <button id="tabPokemon" class="series-tab active" onclick="selectSeries('pokemon')">🔴 寶貝球印章</button>
-        <button id="tabQuokka" class="series-tab" onclick="selectSeries('quokka')">🦘 Quokka 印章</button>
-      </div>
+  <button id="tabPokemon" class="series-tab active" onclick="selectSeries('pokemon')">🔴 寶貝球印章</button>
+  <button id="tabQuokka" class="series-tab" onclick="selectSeries('quokka')">🦘 Quokka 印章</button>
+  <button id="tabConan" class="series-tab" onclick="selectSeries('conan')">🔎 名偵探柯南</button>
+</div>
       <div id="badgeGrid" class="badge-grid"></div>
     </div>
     <div class="panel">
@@ -202,13 +203,22 @@ const UPDATE_URL="https://raw.githubusercontent.com/paulie0102-Bear/encourage/ma
 const SW_URL="./sw.js";
 
 const BADGES={
- pokemon:[{id:"pokeball",name:"寶貝球印章"}],
+ pokemon:[
+  {id:"pokeball",name:"寶貝球印章"}
+ ],
  quokka:[
   {id:"quokka1",name:"Quokka 印章 1",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka1.png"},
   {id:"quokka2",name:"Quokka 印章 2",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka2.png"},
   {id:"quokka3",name:"Quokka 印章 3",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka3.png"},
   {id:"quokka4",name:"Quokka 印章 4",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka4.png"}
- ]};
+ ],
+ conan:[
+  {id:"conan1",name:"柯南 1",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan1.png"},
+  {id:"conan2",name:"灰原 2",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan2.png"},
+  {id:"conan3",name:"服部 3",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan3.png"},
+  {id:"conan4",name:"基德 4",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan4.png"}
+ ]
+};
 let state={series:"pokemon",badgeId:"pokeball"},pendingAward=null,scannerStream=null,scanTimer=null;
 
 function uid(){return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9)}
@@ -247,9 +257,11 @@ function go(id){
 }
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),2200)}
 function selectSeries(series){
- state.series=series;state.badgeId=BADGES[series][0].id;
+ state.series=series;
+ state.badgeId=BADGES[series][0].id;
  document.getElementById("tabPokemon").classList.toggle("active",series==="pokemon");
  document.getElementById("tabQuokka").classList.toggle("active",series==="quokka");
+ document.getElementById("tabConan").classList.toggle("active",series==="conan");
  renderBadges();
 }
 function renderBadges(){
