@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#fff8fb">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="嘉獎小卡">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka3.png">
+<title>💕 嘉獎小卡</title>
+<style>
+:root{
+  --bg:#fff8fb;--paper:#fffdfd;--ink:#5c4d55;--muted:#a28e98;
+  --pink:#f3a8bd;--pink2:#ffe2eb;--rose:#e987a5;--cream:#fff3df;
+  --line:#f0dce4;--shadow:0 10px 30px rgba(126,83,101,.10);
+  --radius:24px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",sans-serif}
+button,input,textarea{font:inherit}
+button{border:0;cursor:pointer}
+body{padding-bottom:env(safe-area-inset-bottom)}
+.app{max-width:560px;margin:auto;min-height:100vh;padding:18px 16px 30px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 16px}
+.brand{font-weight:900;font-size:20px;letter-spacing:.04em}
+.version{font-size:11px;color:var(--muted);background:#fff;border:1px solid var(--line);padding:5px 9px;border-radius:999px}
+.hero{padding:24px 20px;background:linear-gradient(145deg,#fff,#fff1f6);border:1px solid #f6dce5;border-radius:30px;box-shadow:var(--shadow);text-align:center;margin-bottom:16px}
+.hero .heart{font-size:42px;line-height:1;margin-bottom:8px}
+.hero h1{font-size:26px;margin:0 0 7px}
+.hero p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
+.stat b{display:block;font-size:25px}.stat span{font-size:12px;color:var(--muted)}
+.nav-card{width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:23px;padding:18px;margin:10px 0;box-shadow:0 5px 18px rgba(126,83,101,.06);color:var(--ink)}
+.nav-card strong{display:block;font-size:18px;margin-bottom:4px}.nav-card small{color:var(--muted)}
+.nav-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.nav-row .nav-card{margin:0}
+.section-title{font-size:21px;font-weight:900;margin:8px 0 14px}
+.page{display:none}.page.active{display:block}
+.back{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--ink);margin-bottom:13px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:13px}
+.label{font-weight:800;font-size:13px;margin-bottom:9px;display:block}
+.series-tabs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.series-tab{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px;font-weight:800;color:var(--ink)}
+.series-tab.active{border-color:var(--pink);background:#fff3f7}
+.badge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.badge-option{position:relative;background:#fffafc;border:2px solid #f1e2e8;border-radius:20px;padding:12px;text-align:center;color:var(--ink)}
+.badge-option.active{border-color:var(--pink);box-shadow:0 0 0 3px #ffe5ee}
+.badge-art{height:116px;display:flex;align-items:center;justify-content:center}
+.badge-art img{max-width:100%;max-height:110px;object-fit:contain}
+.badge-name{font-size:13px;font-weight:800}
+.pokeball{width:92px;height:92px;border-radius:50%;position:relative;border:6px solid #7b5965;background:linear-gradient(to bottom,#f58fa6 0 47%,#7b5965 47% 53%,#fff 53%);box-shadow:inset 0 0 0 4px rgba(255,255,255,.45),0 7px 12px rgba(100,70,80,.15)}
+.pokeball:before{content:"";position:absolute;width:30px;height:30px;background:#fff;border:5px solid #7b5965;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:inset 0 0 0 5px #f7e8ed}
+.pokeball:after{content:"";position:absolute;width:9px;height:9px;background:#f5afc0;border:2px solid #7b5965;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2}
+input,textarea{width:100%;border:1px solid var(--line);background:#fffafc;border-radius:15px;padding:12px 13px;color:var(--ink);outline:none}
+textarea{min-height:125px;resize:vertical;line-height:1.65}
+.primary{width:100%;padding:14px 16px;border-radius:17px;background:linear-gradient(135deg,#f4a6bb,#e98da9);color:#fff;font-weight:900;box-shadow:0 8px 18px rgba(233,141,169,.24)}
+.secondary{width:100%;padding:12px 15px;border-radius:15px;background:#fff2f6;color:#9b5f73;font-weight:800}
+.danger{color:#b65d70;background:#fff1f3}
+.hint{font-size:12px;color:var(--muted);line-height:1.6;margin-top:8px}
+.card-preview{background:linear-gradient(150deg,#fffdf9,#fff1f6);border:1px solid #efdce4;border-radius:28px;padding:22px 18px;text-align:center;box-shadow:var(--shadow)}
+.card-preview .card-title{font-size:13px;letter-spacing:.2em;color:#a16d7e;font-weight:900}
+.card-preview .art{height:190px;display:flex;align-items:center;justify-content:center;margin:8px 0}
+.card-preview .art img{max-width:88%;max-height:180px;object-fit:contain}
+.card-preview .message{font-size:17px;font-weight:800;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.card-preview .date{font-size:12px;color:var(--muted);margin-top:12px}
+.qr-wrap{text-align:center}.qr-wrap canvas,.qr-wrap img{max-width:100%;height:auto!important;border-radius:12px;background:#fff;padding:10px}
+.records{display:grid;gap:11px}
+.record{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px;text-align:left;width:100%;color:var(--ink)}
+.record .thumb{width:68px;height:68px;display:flex;align-items:center;justify-content:center;flex:none;background:#fff7fa;border-radius:15px}
+.record .thumb img{max-width:62px;max-height:62px}.record .rtext{min-width:0}.record strong{display:block;margin-bottom:4px}.record p{margin:0;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.record time{font-size:11px;color:#b7a5ad}
+.empty{text-align:center;padding:35px 12px;color:var(--muted)}
+.settings-list{display:grid;gap:9px}.settings-btn{text-align:left;background:#fff;border:1px solid var(--line);border-radius:17px;padding:14px;color:var(--ink);font-weight:800}
+#toast{position:fixed;left:50%;bottom:25px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#5e4b55;color:#fff;padding:11px 16px;border-radius:999px;font-size:13px;transition:.25s;z-index:99;white-space:nowrap}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:rgba(68,45,55,.32);display:none;align-items:flex-end;justify-content:center;padding:10px;z-index:50}
+.modal.show{display:flex}.sheet{width:min(560px,100%);max-height:92vh;overflow:auto;background:#fffafc;border-radius:28px 28px 18px 18px;padding:16px;box-shadow:0 -15px 45px rgba(70,45,55,.18)}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.close{background:#f8e9ee;border-radius:50%;width:36px;height:36px;color:#805e6a}
+.camera-box{position:relative;background:#1d1a1c;border-radius:22px;overflow:hidden;aspect-ratio:1/1;max-width:420px;margin:auto}
+.camera-box video{width:100%;height:100%;object-fit:cover}.scan-frame{position:absolute;inset:18%;border:3px solid #fff;border-radius:20px;box-shadow:0 0 0 999px rgba(0,0,0,.18)}
+.receive-result .stamp{font-size:58px;animation:stamp .5s ease}.stamp-img{animation:stamp .5s ease}
+@keyframes stamp{0%{transform:scale(2.2) rotate(-8deg);opacity:0}70%{transform:scale(.9) rotate(2deg)}100%{transform:scale(1);opacity:1}}
+@media(max-width:380px){.app{padding-left:12px;padding-right:12px}.badge-grid{grid-template-columns:1fr 1fr}.badge-art{height:100px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar"><div class="brand">💕 嘉獎小卡</div><div class="version" id="versionLabel">v1.0.0</div></div>
+
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="heart">💕</div>
+      <h1>OUR AWARDS</h1>
+      <p>把想說的謝謝、辛苦了與喜歡，做成一枚小小的嘉獎。</p>
+      <div class="stats">
+        <div class="stat"><b id="sentCount">0</b><span>已頒發</span></div>
+        <div class="stat"><b id="receivedCount">0</b><span>已收藏</span></div>
+      </div>
+    </div>
+    <button class="nav-card" onclick="go('issue')"><strong>🏅 頒發獎章</strong><small>做一張嘉獎卡，送給對方</small></button>
+    <button class="nav-card" onclick="go('receive')"><strong>📥 接收獎章</strong><small>掃描對方手機上的 QR Code</small></button>
+    <div class="nav-row">
+      <button class="nav-card" onclick="go('sent')"><strong>📜 頒發紀錄</strong><small>我送出去的</small></button>
+      <button class="nav-card" onclick="go('received')"><strong>📖 印章冊</strong><small>我收到的</small></button>
+    </div>
+    <div class="panel" style="margin-top:13px"><div class="label">最近收到</div><div id="recentList"></div></div>
+    <button class="secondary" onclick="go('settings')">⚙️ 造型 / 設定</button>
+  </section>
+
+  <section id="issue" class="page">
+    <button class="back" onclick="go('home')">← 返回</button>
+    <div class="section-title">🏅 頒發獎章</div>
+    <div class="panel">
+      <span class="label">選擇系列</span>
+      <div class="series-tabs">
+        <button id="tabPokemon" class="series-tab active" onclick="selectSeries('pokemon')">🔴 寶貝球印章</button>
+        <button id="tabQuokka" class="series-tab" onclick="selectSeries('quokka')">🦘 Quokka 印章</button>
+      </div>
+      <div id="badgeGrid" class="badge-grid"></div>
+    </div>
+    <div class="panel">
+      <label class="label" for="message">✍️ 嘉獎內容</label>
+      <textarea id="message" maxlength="500" placeholder="例如：今天辛苦工作了，還記得買我喜歡的飲料 💕"></textarea>
+      <div class="hint"><span id="messageCount">0</span>/500</div>
+    </div>
+    <button class="primary" onclick="createAward()">💌 產生嘉獎卡</button>
+  </section>
+
+  <section id="sent" class="page">
+    <button class="back" onclick="go('home')">← 返回</button>
+    <div class="section-title">📜 頒發紀錄</div>
+    <div id="sentList" class="records"></div>
+  </section>
+
+  <section id="received" class="page">
+    <button class="back" onclick="go('home')">← 返回</button>
+    <div class="section-title">📖 我的印章冊</div>
+    <div class="panel" style="padding:12px 15px"><span style="font-size:13px;color:var(--muted)">收到的獎章會永久留在這裡。點一下印章，就能重新打開當時的嘉獎卡。</span></div>
+    <div id="receivedList" class="records"></div>
+  </section>
+
+  <section id="receive" class="page">
+    <button class="back" onclick="go('home')">← 返回</button>
+    <div class="section-title">📥 接收獎章</div>
+    <div class="panel">
+      <div class="camera-box"><video id="video" playsinline muted></video><div class="scan-frame"></div></div>
+      <p class="hint" style="text-align:center">將對方手機上的 QR Code 放進框框內。需要 HTTPS 或 localhost 才能使用相機。</p>
+      <button class="primary" id="cameraBtn" onclick="startScanner()">📷 開啟相機</button>
+      <button class="secondary" style="margin-top:8px" onclick="stopScanner()">停止掃描</button>
+    </div>
+  </section>
+
+  <section id="settings" class="page">
+    <button class="back" onclick="go('home')">← 返回</button>
+    <div class="section-title">⚙️ 設定</div>
+    <div class="panel">
+      <div class="label">💾 存檔</div>
+      <div class="settings-list">
+        <button class="settings-btn" onclick="exportBackup()">📤 匯出存檔</button>
+        <button class="settings-btn" onclick="document.getElementById('importFile').click()">📥 匯入存檔</button>
+        <input id="importFile" type="file" accept=".json,application/json" hidden onchange="importBackup(event)">
+        <button class="settings-btn" onclick="updateLatest()">🔄 更新到最新版本</button>
+      </div>
+      <div class="hint">資料使用 IndexedDB 儲存在目前裝置；匯出後可把存檔檔案帶到另一台手機再匯入。</div>
+    </div>
+    <div class="panel">
+      <div class="label">🌷 目前主題</div>
+      <div style="font-size:13px;line-height:1.7">淺色可愛風<br>🔴 CSS 寶貝球印章　＋　🦘 Quokka 印章</div>
+    </div>
+    <div class="panel">
+      <div class="label">ℹ️ 系統資訊</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.8">存檔模式：IndexedDB<br>QR Code：只在頒發與接收時使用<br>收到後：直接收藏到印章冊</div>
+    </div>
+  </section>
+</div>
+
+<div id="toast"></div>
+
+<div id="cardModal" class="modal" onclick="if(event.target===this)closeModal('cardModal')">
+  <div class="sheet">
+    <div class="sheet-head"><strong id="modalTitle">💌 嘉獎卡</strong><button class="close" onclick="closeModal('cardModal')">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div id="receiveModal" class="modal">
+  <div class="sheet receive-result">
+    <div class="sheet-head"><strong>🎉 你收到一份嘉獎！</strong><button class="close" onclick="closeModal('receiveModal');pendingAward=null">×</button></div>
+    <div id="receiveBody"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode_UTF8.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+const APP_VERSION="1.0.0";
+const DB_NAME="EncourageAwardsDB",DB_VERSION=1;
+const STORES={meta:"meta",sent:"sent",received:"received"};
+const UPDATE_URL="https://raw.githubusercontent.com/paulie0102-Bear/encourage/main/version.json";
+const SW_URL="./sw.js";
+
+const BADGES={
+ pokemon:[{id:"pokeball",name:"寶貝球印章"}],
+ quokka:[
+  {id:"quokka1",name:"Quokka 印章 1",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka1.png"},
+  {id:"quokka2",name:"Quokka 印章 2",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka2.png"},
+  {id:"quokka3",name:"Quokka 印章 3",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka3.png"},
+  {id:"quokka4",name:"Quokka 印章 4",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka4.png"}
+ ]};
+let state={series:"pokemon",badgeId:"pokeball"},pendingAward=null,scannerStream=null,scanTimer=null;
+
+function uid(){return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9)}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function fmtDate(iso){try{return new Intl.DateTimeFormat("zh-TW",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).format(new Date(iso))}catch{return iso}}
+function badgeInfo(series,id){return BADGES[series]?.find(x=>x.id===id)||BADGES.pokemon[0]}
+function badgeHTML(series,id,small=false){
+ const b=badgeInfo(series,id);
+ if(series==="pokemon")return '<div class="pokeball" style="'+(small?'transform:scale(.68)':'')+'"></div>';
+ return '<img src="'+esc(b.image)+'" alt="'+esc(b.name)+'" loading="lazy">';
+}
+function badgeName(series,id){return badgeInfo(series,id).name}
+
+const DB={
+ open(){
+  return new Promise((resolve,reject)=>{
+   const r=indexedDB.open(DB_NAME,DB_VERSION);
+   r.onupgradeneeded=()=>{const db=r.result;Object.values(STORES).forEach(s=>{if(!db.objectStoreNames.contains(s))db.createObjectStore(s,{keyPath:"id"})})};
+   r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);
+  });
+ },
+ async put(store,obj){const db=await this.open();return new Promise((res,rej)=>{const tx=db.transaction(store,"readwrite");tx.objectStore(store).put(obj);tx.oncomplete=()=>res(obj);tx.onerror=()=>rej(tx.error)})},
+ async getAll(store){const db=await this.open();return new Promise((res,rej)=>{const tx=db.transaction(store,"readonly"),r=tx.objectStore(store).getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)})},
+ async clear(store){const db=await this.open();return new Promise((res,rej)=>{const tx=db.transaction(store,"readwrite");tx.objectStore(store).clear();tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
+};
+
+function go(id){
+ stopScanner();
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ if(id==="issue")renderBadges();
+ if(id==="sent")renderRecords("sent");
+ if(id==="received")renderRecords("received");
+ if(id==="home")refreshHome();
+ window.scrollTo({top:0,behavior:"instant"});
+}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),2200)}
+function selectSeries(series){
+ state.series=series;state.badgeId=BADGES[series][0].id;
+ document.getElementById("tabPokemon").classList.toggle("active",series==="pokemon");
+ document.getElementById("tabQuokka").classList.toggle("active",series==="quokka");
+ renderBadges();
+}
+function renderBadges(){
+ const box=document.getElementById("badgeGrid");
+ box.innerHTML=BADGES[state.series].map(b=>'<button class="badge-option '+(b.id===state.badgeId?'active':'')+'" onclick="state.badgeId=\''+b.id+'\';renderBadges()"><div class="badge-art">'+badgeHTML(state.series,b.id)+'</div><div class="badge-name">'+esc(b.name)+'</div></button>').join("");
+}
+document.getElementById("message").addEventListener("input",e=>document.getElementById("messageCount").textContent=e.target.value.length);
+
+async function createAward(){
+ const msg=document.getElementById("message").value.trim();
+ if(!msg){toast("請先寫下嘉獎內容 💕");return}
+ const award={type:"love-award",version:1,id:uid(),badge:{series:state.series,id:state.badgeId},message:msg,createdAt:new Date().toISOString()};
+ await DB.put("sent",award);
+ document.getElementById("message").value="";document.getElementById("messageCount").textContent="0";
+ showCard(award,true);
+ refreshHome();
+}
+function cardMarkup(a,withQR=false){
+ return '<div class="card-preview"><div class="card-title">💕 特別嘉獎</div><div class="art">'+badgeHTML(a.badge.series,a.badge.id)+'</div><div style="font-size:13px;color:#a16d7e;font-weight:800;margin-bottom:7px">'+esc(badgeName(a.badge.series,a.badge.id))+'</div><div class="message">「'+esc(a.message)+'」</div><div class="date">'+fmtDate(a.createdAt)+'</div></div>'+(withQR?'<div class="panel qr-wrap" style="margin-top:12px"><div class="label">📱 請對方掃描</div><div id="qrBox"></div><div class="hint">QR Code 只用來把這張嘉獎卡交給對方；對方收下後就會存進自己的印章冊。</div></div>':'');
+}
+function showCard(a,withQR=false){
+ document.getElementById("modalTitle").textContent=withQR?"💌 嘉獎卡":"🏅 嘉獎卡";
+ document.getElementById("modalBody").innerHTML=cardMarkup(a,withQR);
+ document.getElementById("cardModal").classList.add("show");
+
+ if(withQR)setTimeout(()=>{
+  const box=document.getElementById("qrBox");
+  if(!box)return;
+
+  box.innerHTML="";
+
+  const qrData=JSON.stringify({
+   type:a.type,
+   version:a.version,
+   badge:a.badge,
+   message:a.message,
+   createdAt:a.createdAt
+  });
+
+  try{
+   const qr=qrcode(0,"M");
+   qr.addData(qrData,"Byte");
+   qr.make();
+
+   const img=qr.createImgTag(4,10);
+
+   box.innerHTML=img;
+
+   const qrImg=box.querySelector("img");
+   if(qrImg){
+    qrImg.style.width="230px";
+    qrImg.style.height="230px";
+    qrImg.style.maxWidth="100%";
+    qrImg.style.borderRadius="12px";
+    qrImg.style.background="#fff";
+    qrImg.style.padding="10px";
+   }
+  }catch(e){
+   console.error("QR Code 產生失敗：",e);
+   box.innerHTML='<div class="hint" style="color:#b65d70">QR Code 產生失敗，請稍後再試。</div>';
+  }
+ },30);
+}
+function closeModal(id){document.getElementById(id).classList.remove("show")}
+
+async function renderRecords(store){
+ const arr=(await DB.getAll(store)).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+ const box=document.getElementById(store==="sent"?"sentList":"receivedList");
+ if(!arr.length){box.innerHTML='<div class="empty">還沒有紀錄。<br>送出或收到第一枚嘉獎吧 💕</div>';return}
+ box.innerHTML=arr.map(a=>'<button class="record" onclick="openRecord(\''+esc(a.id)+'\',\''+store+'\')"><div class="thumb">'+badgeHTML(a.badge.series,a.badge.id,true)+'</div><div class="rtext"><strong>'+esc(badgeName(a.badge.series,a.badge.id))+'</strong><p>'+esc(a.message)+'</p><time>'+fmtDate(a.createdAt)+'</time></div></button>').join("");
+}
+async function openRecord(id,store){const arr=await DB.getAll(store),a=arr.find(x=>x.id===id);if(a)showCard(a,false)}
+async function refreshHome(){
+ const s=await DB.getAll("sent"),r=await DB.getAll("received");
+ document.getElementById("sentCount").textContent=s.length;document.getElementById("receivedCount").textContent=r.length;
+ const recent=r.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).slice(0,3),box=document.getElementById("recentList");
+ if(!recent.length){box.innerHTML='<div class="empty" style="padding:15px 0">還沒有收到嘉獎 💕</div>';return}
+ box.innerHTML='<div class="records">'+recent.map(a=>'<button class="record" onclick="showCardById(\''+esc(a.id)+'\')"><div class="thumb">'+badgeHTML(a.badge.series,a.badge.id,true)+'</div><div class="rtext"><strong>'+esc(badgeName(a.badge.series,a.badge.id))+'</strong><p>'+esc(a.message)+'</p><time>'+fmtDate(a.createdAt)+'</time></div></button>').join("")+'</div>';
+}
+async function showCardById(id){const a=(await DB.getAll("received")).find(x=>x.id===id);if(a)showCard(a,false)}
+
+async function startScanner(){
+ if(scannerStream)return;
+ if(!navigator.mediaDevices?.getUserMedia){toast("這個瀏覽器不支援相機");return}
+ try{
+  scannerStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+  const v=document.getElementById("video");v.srcObject=scannerStream;await v.play();scanLoop();
+ }catch(e){toast("無法開啟相機，請確認相機權限")}
+}
+function stopScanner(){
+ if(scannerStream){scannerStream.getTracks().forEach(t=>t.stop());scannerStream=null}
+ clearTimeout(scanTimer);scanTimer=null;
+ const v=document.getElementById("video");if(v)v.srcObject=null;
+}
+function scanLoop(){
+ if(!scannerStream)return;
+ const v=document.getElementById("video"),c=document.createElement("canvas"),ctx=c.getContext("2d",{willReadFrequently:true});
+ const tick=()=>{
+  if(!scannerStream)return;
+  if(v.readyState>=2&&v.videoWidth){
+   c.width=v.videoWidth;c.height=v.videoHeight;ctx.drawImage(v,0,0,c.width,c.height);
+   const img=ctx.getImageData(0,0,c.width,c.height),code=window.jsQR?.(img.data,img.width,img.height,{inversionAttempts:"attemptBoth"});
+   if(code?.data){handleQR(code.data);return}
+  }
+  scanTimer=setTimeout(tick,180);
+ };tick();
+}
+async function handleQR(data){
+ stopScanner();
+ try{
+  const a=JSON.parse(data);
+  if(a?.type!=="love-award"||!a.badge||!a.message)throw new Error();
+  pendingAward={type:"love-award",version:Number(a.version)||1,id:uid(),badge:{series:a.badge.series,id:a.badge.id},message:String(a.message).slice(0,500),createdAt:a.createdAt||new Date().toISOString()};
+  document.getElementById("receiveBody").innerHTML=cardMarkup(pendingAward,false)+'<button class="primary" style="margin-top:12px" onclick="acceptAward()">收下這份嘉獎 💕</button>';
+  document.getElementById("receiveModal").classList.add("show");
+ }catch(e){toast("這不是有效的嘉獎 QR Code")}
+}
+async function acceptAward(){
+ if(!pendingAward)return;
+ await DB.put("received",pendingAward);pendingAward=null;closeModal("receiveModal");toast("🏅 嘉獎已收藏！");
+ refreshHome();go("received");
+}
+
+async function exportBackup(){
+ const data={app:"love-award",version:APP_VERSION,exportedAt:new Date().toISOString(),sent:await DB.getAll("sent"),received:await DB.getAll("received")};
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="嘉獎小卡_存檔_"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(url);toast("📤 存檔已匯出");
+}
+async function importBackup(e){
+ const file=e.target.files?.[0];e.target.value="";if(!file)return;
+ try{
+  const data=JSON.parse(await file.text());
+  if(data.app!=="love-award"||!Array.isArray(data.sent)||!Array.isArray(data.received))throw new Error();
+  for(const a of data.sent)if(a?.id&&a?.badge)await DB.put("sent",a);
+  for(const a of data.received)if(a?.id&&a?.badge)await DB.put("received",a);
+  toast("📥 存檔已匯入");refreshHome();
+ }catch(e){toast("匯入失敗：檔案格式不正確")}
+}
+async function updateLatest(){
+ toast("正在檢查最新版本…");
+ try{
+  const r=await fetch(UPDATE_URL+"?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error();
+  const data=await r.json(),latest=String(data.version||APP_VERSION);
+  if(latest===APP_VERSION){toast("目前已是最新版本");return}
+  if(confirm("發現新版本 v"+latest+"，要更新嗎？")){
+   if("serviceWorker"in navigator){const regs=await navigator.serviceWorker.getRegistrations();for(const x of regs)await x.unregister()}
+   const keys=await caches.keys();for(const k of keys)await caches.delete(k);
+   location.href="./?update="+Date.now();
+  }
+ }catch(e){toast("目前無法檢查最新版本")}
+}
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register(SW_URL).catch(()=>{}));
+document.getElementById("versionLabel").textContent="v"+APP_VERSION;
+renderBadges();refreshHome();
+</script>
+</body>
+</html>

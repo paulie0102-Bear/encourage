@@ -1,0 +1,17 @@
+{
+  "name": "💕 嘉獎小卡",
+  "short_name": "嘉獎小卡",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff8fb",
+  "theme_color": "#fff8fb",
+  "description": "兩個人的可愛嘉獎與印章收藏小卡",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/paulie0102-Bear/diary/refs/heads/main/apple-touch-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
