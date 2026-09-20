@@ -86,7 +86,7 @@ textarea{min-height:125px;resize:vertical;line-height:1.65}
 </head>
 <body>
 <div class="app">
-  <div class="topbar"><div class="brand">💕 嘉獎小卡</div><div class="version" id="versionLabel">v1.0.0</div></div>
+  <div class="topbar"><div class="brand">💕 嘉獎小卡</div><div class="version" id="versionLabel">v1.0.1</div></div>
 
   <section id="home" class="page active">
     <div class="hero">
@@ -167,7 +167,7 @@ textarea{min-height:125px;resize:vertical;line-height:1.65}
     </div>
     <div class="panel">
       <div class="label">🌷 目前主題</div>
-      <div style="font-size:13px;line-height:1.7">淺色可愛風<br>🔴 CSS 寶貝球印章　＋　🦘 Quokka 印章</div>
+      <div style="font-size:13px;line-height:1.7">淺色可愛風<br></div>
     </div>
     <div class="panel">
       <div class="label">ℹ️ 系統資訊</div>
@@ -196,7 +196,7 @@ textarea{min-height:125px;resize:vertical;line-height:1.65}
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode_UTF8.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script>
-const APP_VERSION="1.0.0";
+const APP_VERSION="1.0.1";
 const DB_NAME="EncourageAwardsDB",DB_VERSION=1;
 const STORES={meta:"meta",sent:"sent",received:"received"};
 const UPDATE_URL="https://raw.githubusercontent.com/paulie0102-Bear/encourage/main/version.json";
@@ -213,10 +213,10 @@ const BADGES={
   {id:"quokka4",name:"Quokka 印章 4",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/quokka4.png"}
  ],
  conan:[
-  {id:"conan1",name:"柯南 1",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan1.png"},
-  {id:"conan2",name:"灰原 2",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan2.png"},
-  {id:"conan3",name:"服部 3",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan3.png"},
-  {id:"conan4",name:"基德 4",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/conan4.png"}
+  {id:"conan1",name:"柯南 1",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/Conan1.png"},
+  {id:"conan2",name:"灰原 2",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/Conan2.png"},
+  {id:"conan3",name:"服部 3",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/Conan3.png"},
+  {id:"conan4",name:"基德 4",image:"https://raw.githubusercontent.com/paulie0102-Bear/encourage/refs/heads/main/picture/Conan4.png"}
  ]
 };
 let state={series:"pokemon",badgeId:"pokeball"},pendingAward=null,scannerStream=null,scanTimer=null;
