@@ -1,4 +1,4 @@
-const CACHE="encourage-awards-v1.0.1";
+const CACHE="encourage-awards-v1.0.2";
 const CORE=["./","./index.html","./manifest.json"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(self.clients.claim()));
